@@ -1,5 +1,4 @@
 QUICK INSTALL
-
 ===
 ```
 cd ~/
