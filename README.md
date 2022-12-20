@@ -1,6 +1,7 @@
-1.SYSTEM
+1.SYSTEM 
 ===
 
+ubuntu 18.04 - 22.04
 ```
 sudo apt-get -y update -y
 sudo apt-get -y install ca-certificates curl gnupg lsb-release joe rsync zip unzip tmux
