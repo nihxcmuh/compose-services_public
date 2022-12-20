@@ -45,11 +45,12 @@ cp -rf patch/Secrets_biobank patch/Secrets
 
 b. Replace HOSTNAME
 ```
-~/compose-services_google/patch/replace google-gen3.biobank.org.tw ${HOSTNAME} ~/compose-services_google/*
-~/compose-services_google/patch/replace google-gen3.biobank.org.tw ${HOSTNAME} ~/compose-services_google/*/*
-~/compose-services_google/patch/replace google-gen3.biobank.org.tw ${HOSTNAME} ~/compose-services_google/*/*/*
-~/compose-services_google/patch/replace google-gen3.biobank.org.tw ${HOSTNAME} ~/compose-services_google/*/*/*/*
-~/compose-services_google/patch/replace google-gen3.biobank.org.tw ${HOSTNAME} ~/compose-services_google/*/*/*/*/*
+~/compose-services_google/patch/replace google-gen3.biobank.org.tw ${HOSTNAME} -- ~/compose-services_google/*
+~/compose-services_google/patch/replace google-gen3.biobank.org.tw ${HOSTNAME} -- ~/compose-services_google/*/*
+~/compose-services_google/patch/replace google-gen3.biobank.org.tw ${HOSTNAME} -- ~/compose-services_google/*/*/*
+~/compose-services_google/patch/replace google-gen3.biobank.org.tw ${HOSTNAME} -- ~/compose-services_google/*/*/*/*
+~/compose-services_google/patch/replace google-gen3.biobank.org.tw ${HOSTNAME} -- ~/compose-services_google/*/*/*/*/*
+~/compose-services_google/patch/replace google-gen3.biobank.org.tw ${HOSTNAME} -- ~/compose-services_google/*/*/*/*/*/*
 ```
 c. Create HOSTNAME ssl key  
 ```
