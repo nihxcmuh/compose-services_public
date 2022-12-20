@@ -1,7 +1,7 @@
 1.QUICK INSTALL
 ===
 
-a. Download and patch program 
+a. Download gen3-compose and patch it 
 ```
 HOSTNAME=google-gen3.biobank.org.tw
 cd ~/
