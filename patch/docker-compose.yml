@@ -1,5 +1,43 @@
 version: '3.7'
 services:
+  phpapache:
+    build: ./php
+    container_name: lamp
+    networks:
+      - devnet 
+    ports:
+      - "6080:80"
+      - "6443:443"
+    depends_on:
+      - mysql
+    volumes:
+      - ./www:/var/www/html
+  mysql:
+    build: ./mysql
+    container_name: mysql
+    networks:
+      - devnet     
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+    environment:
+      MYSQL_USERNAME: titan
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: admin
+      #MYSQL_DATABASE: testdb
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    networks:
+      - devnet     
+    ports:
+      - "6088:80"
+    depends_on:
+      - mysql
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306     
   pgadmin4:
     image: dpage/pgadmin4
     container_name: pgadmin4
@@ -358,4 +396,3 @@ networks:
 volumes:
   psqldata:
   esdata:
-
