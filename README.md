@@ -63,7 +63,8 @@ sudo cp /etc/letsencrypt/live/${HOSTNAME}/fullchain.pem ~/compose-services_googl
 sudo cp /etc/letsencrypt/live/${HOSTNAME}/privkey.pem ~/compose-services_google/Secrets/TLS/service.key
 ```
 e. Edit Secrets/fence-config.yaml for google Oauth 2.0 key 
-#https://console.developers.google.com/apis/credentials
+
+#OPEN URL https://console.developers.google.com/apis/credentials
 ```
 client_id: 'xxxxx'
 client_secret: 'xxxx'
