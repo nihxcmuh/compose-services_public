@@ -154,8 +154,8 @@ core_metadata_collection.json
 6.Update Server
 ===
 
-```
 a. 修改文件 nginx.conf, 移除標記#
+```
 location /guppy/ {
         proxy_pass http://guppy-service/;
 }
