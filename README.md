@@ -133,6 +133,15 @@ goto the project https://google-gen3.biobank.org.tw/jnkns-jenkins
 click “Upload file”
 select “experiment.json”
 click “Submit”
+
+4. do the same process as above
+experiment.json
+case.json
+sample.json
+slide.json
+slide_count.json
+slide_image.json
+core_metadata_collection.json
 ```
 
 5.Compose-Services document
