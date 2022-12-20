@@ -1,5 +1,6 @@
 QUICK INSTALL
 ===
+Download and patch program 
 ```
 cd ~/
 git clone https://github.com/c00cjz00/compose-services_google.git
@@ -7,6 +8,17 @@ cd compose-services_google
 ./creds_setup.sh google-gen3.biobank.org.tw
 cp -rf patch/Secrets_biobank patch/Secrets
 ./patch.sh
+```
+Edit Secrets/fence-config.yaml
+```
+S3_BUCKETS ..............
+```
+Edit Secrets/user.yaml
+```
+summerhill001@gmail.com to your Email
+```
+Build Gen3 
+```
 docker-compose down
 docker-compose up -d
 ```
