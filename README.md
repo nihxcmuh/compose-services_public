@@ -1,29 +1,67 @@
-QUICK INSTALL
+1. QUICK INSTALL
 ===
-Download and patch program 
+a. Download and patch program 
 ```
+HOSTNAME=google-gen3.biobank.org.tw
 cd ~/
 git clone https://github.com/c00cjz00/compose-services_google.git
-cd compose-services_google
-./creds_setup.sh google-gen3.biobank.org.tw
+cd ~/compose-services_google
+./creds_setup.sh ${HOSTNAME}
 cp -rf patch/Secrets_biobank patch/Secrets
 ./patch.sh
 ```
-Edit Secrets/fence-config.yaml
+
+b. Replace HOSTNAME
 ```
-S3_BUCKETS ..............
+~/compose-services_google/patch/replace google-gen3.biobank.org.tw ${HOSTNAME} ~/compose-services_google/*
+~/compose-services_google/patch/replace google-gen3.biobank.org.tw ${HOSTNAME} ~/compose-services_google/*/*
+~/compose-services_google/patch/replace google-gen3.biobank.org.tw ${HOSTNAME} ~/compose-services_google/*/*/*
+~/compose-services_google/patch/replace google-gen3.biobank.org.tw ${HOSTNAME} ~/compose-services_google/*/*/*/*
+~/compose-services_google/patch/replace google-gen3.biobank.org.tw ${HOSTNAME} ~/compose-services_google/*/*/*/*/*
 ```
-Edit Secrets/user.yaml
+c. Create HOSTNAME ssl key  
 ```
-summerhill001@gmail.com to your Email
+sudo apt-get install letsencrypt -y
+sudo letsencrypt certonly
 ```
-Build Gen3 
+d. Copy ssl key to gen3
+```
+sudo cp /etc/letsencrypt/live/${HOSTNAME}/fullchain.pem ~/compose-services_google/Secrets/TLS/service.crt
+sudo cp /etc/letsencrypt/live/${HOSTNAME}/privkey.pem ~/compose-services_google/Secrets/TLS/service.key
+```
+e. Edit Secrets/fence-config.yaml for google Oauth 2.0 key 
+#https://console.developers.google.com/apis/credentials
+```
+client_id: 'xxxxx'
+client_secret: 'xxxx'
+```
+f. Edit Secrets/fence-config.yaml for aws s3 access_key and bucket
+```
+AWS_CREDENTIALS:
+   'CRED1':
+    aws_access_key_id: xxxxxxxxxxxxxxxxxxxxxxxxxx
+    aws_secret_access_key: xxxxxxxxxxxxxxxxxxxxxxxxxx
+    endpoint_url: http://s3.twcc.ai
+
+S3_BUCKETS:
+  gen3bucket:
+    cred: 'CRED1'
+    region: us-east-1
+    endpoint_url: http://s3.twcc.ai
+
+DATA_UPLOAD_BUCKET: gen3bucket
+```
+g. Edit Secrets/user.yaml
+```
+change summerhill001@gmail.com to your Email
+```
+h. Building Gen3 
 ```
 docker-compose down
 docker-compose up -d
 ```
 
-CREATE DATA
+2. CREATE DATA
 ===
 ```
 export TEST_DATA_PATH="$(pwd)/testData"
@@ -31,7 +69,7 @@ mkdir -p "$TEST_DATA_PATH"
 docker run -it -v "${TEST_DATA_PATH}:/mnt/data" --rm --name=dsim --entrypoint=data-simulator quay.io/cdis/data-simulator:master simulate --url https://s3.amazonaws.com/dictionary-artifacts/datadictionary/develop/schema.json --path /mnt/data --program jnkns --project jenkins --max_samples 10
 ```
 
-UPLOAD DATA
+3. UPLOAD DATA
 ===
 ```
 1. Create Program
