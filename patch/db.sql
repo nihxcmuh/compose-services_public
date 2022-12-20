@@ -1,0 +1,10 @@
+DROP DATABASE gen3_arborist_db;
+DROP DATABASE gen3_fence_db;
+DROP DATABASE gen3_indexd_db;
+DROP DATABASE gen3_metadata;
+DROP DATABASE gen3_metadata_db;
+CREATE DATABASE gen3_arborist_db DEFAULT CHARSET=utf8mb4;
+CREATE DATABASE gen3_fence_db DEFAULT CHARSET=utf8mb4;
+CREATE DATABASE gen3_indexd_db DEFAULT CHARSET=utf8mb4;
+CREATE DATABASE gen3_metadata DEFAULT CHARSET=utf8mb4;
+CREATE DATABASE gen3_metadata_db DEFAULT CHARSET=utf8mb4;
