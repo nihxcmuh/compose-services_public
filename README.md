@@ -1,7 +1,7 @@
 QUICK INSTALL
 
 ===
-
+```
 cd ~/
 git clone https://github.com/c00cjz00/compose-services_google.git
 cd compose-services_google
@@ -10,8 +10,8 @@ cp -rf patch/Secrets_biobank patch/Secrets
 ./patch.sh
 docker-compose down
 docker-compose up -d
+```
 
-===
 
 Compose-Services
 ===
