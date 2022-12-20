@@ -11,6 +11,40 @@ docker-compose down
 docker-compose up -d
 ```
 
+CREATE DATA
+===
+```
+export TEST_DATA_PATH="$(pwd)/testData"
+mkdir -p "$TEST_DATA_PATH"
+docker run -it -v "${TEST_DATA_PATH}:/mnt/data" --rm --name=dsim --entrypoint=data-simulator quay.io/cdis/data-simulator:master simulate --url https://s3.amazonaws.com/dictionary-artifacts/datadictionary/develop/schema.json --path /mnt/data --program jnkns --project jenkins --max_samples 10
+```
+
+UPLOAD DATA
+===
+```
+1. Create Program
+Goto https://google-gen3.biobank.org.tw/_root
+Click “Use Form Submission”
+At drop-down box, enter “program”
+At dbgap_accession_number, enter “jk123”
+At name, enter “jnkns”
+Click “Generate submission JSON from form”
+Click “Submit”
+
+2. Create “jenkins” project under “jnkns” program
+Goto https://google-gen3.biobank.org.tw/jnkns
+🙋‍♂️ we will be uploading in order described in Secrets/testData/DataImportOrder.txt
+click “Upload file”
+select “project.json”
+click “Submit”
+
+3. Uploading metadata under “jenkins” project, under “jnkns” program
+💡 here we are fulfilling data dictionary (DD model graph) requirement for your center data submission program
+goto the project https://google-gen3.biobank.org.tw/jnkns-jenkins
+click “Upload file”
+select “experiment.json”
+click “Submit”
+```
 
 Compose-Services
 ===
