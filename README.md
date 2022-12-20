@@ -1,4 +1,4 @@
-1. QUICK INSTALL
+1.QUICK INSTALL
 ===
 
 a. Download and patch program 
@@ -62,7 +62,7 @@ docker-compose down
 docker-compose up -d
 ```
 
-2. CREATE DATA
+2.CREATE DATA
 ===
 ```
 export TEST_DATA_PATH="$(pwd)/testData"
@@ -70,7 +70,7 @@ mkdir -p "$TEST_DATA_PATH"
 docker run -it -v "${TEST_DATA_PATH}:/mnt/data" --rm --name=dsim --entrypoint=data-simulator quay.io/cdis/data-simulator:master simulate --url https://s3.amazonaws.com/dictionary-artifacts/datadictionary/develop/schema.json --path /mnt/data --program jnkns --project jenkins --max_samples 10
 ```
 
-3. UPLOAD DATA
+3.UPLOAD DATA
 ===
 ```
 1. Create Program
@@ -97,7 +97,7 @@ select “experiment.json”
 click “Submit”
 ```
 
-Compose-Services
+4.Compose-Services document
 ===
 
 Docker-compose setup for experimental commons, small commons, or local development of the Gen3 stack. Production use should use [cloud-automation](https://github.com/uc-cdis/cloud-automation).
