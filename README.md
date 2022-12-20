@@ -111,7 +111,7 @@ docker run -it -v "${TEST_DATA_PATH}:/mnt/data" --rm --name=dsim --entrypoint=da
 4.UPLOAD DATA
 ===
 ```
-1. Create Program
+a. Create Program
 Goto https://google-gen3.biobank.org.tw/_root
 Click “Use Form Submission”
 At drop-down box, enter “program”
@@ -119,22 +119,25 @@ At dbgap_accession_number, enter “jk123”
 At name, enter “jnkns”
 Click “Generate submission JSON from form”
 Click “Submit”
-
-2. Create “jenkins” project under “jnkns” program
+```
+```
+b. Create “jenkins” project under “jnkns” program
 Goto https://google-gen3.biobank.org.tw/jnkns
 🙋‍♂️ we will be uploading in order described in Secrets/testData/DataImportOrder.txt
 click “Upload file”
 select “project.json”
 click “Submit”
-
-3. Uploading metadata under “jenkins” project, under “jnkns” program
+```
+```
+c. Uploading metadata under “jenkins” project, under “jnkns” program
 💡 here we are fulfilling data dictionary (DD model graph) requirement for your center data submission program
 goto the project https://google-gen3.biobank.org.tw/jnkns-jenkins
 click “Upload file”
 select “experiment.json”
 click “Submit”
-
-4. do the same process as above
+```
+```
+d. do the same process as above
 experiment.json
 case.json
 sample.json
