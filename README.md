@@ -1,4 +1,35 @@
-1.QUICK INSTALL
+1.SYSTEM
+===
+
+```
+sudo apt-get -y update -y
+sudo apt-get -y install ca-certificates curl gnupg lsb-release joe rsync zip unzip tmux
+
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+sudo apt-get update -y
+sudo apt-get install docker-ce docker-ce-cli containerd.io -y
+
+sudo groupadd docker
+sudo usermod -aG docker $USER
+sudo systemctl enable docker  # 啟動 Docker 服務
+docker --version
+
+sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+docker-compose --version
+
+sudo su 
+
+su ubuntu
+docker run hello-world
+
+sudo ln -s /usr/bin/python3 /usr/bin/python
+```
+
+2.QUICK INSTALL
 ===
 
 a. Download gen3-compose and patch it 
@@ -62,7 +93,7 @@ docker-compose down
 docker-compose up -d
 ```
 
-2.CREATE DATA
+3.CREATE DATA
 ===
 ```
 export TEST_DATA_PATH="$(pwd)/testData"
@@ -70,7 +101,7 @@ mkdir -p "$TEST_DATA_PATH"
 docker run -it -v "${TEST_DATA_PATH}:/mnt/data" --rm --name=dsim --entrypoint=data-simulator quay.io/cdis/data-simulator:master simulate --url https://s3.amazonaws.com/dictionary-artifacts/datadictionary/develop/schema.json --path /mnt/data --program jnkns --project jenkins --max_samples 10
 ```
 
-3.UPLOAD DATA
+4.UPLOAD DATA
 ===
 ```
 1. Create Program
@@ -97,7 +128,7 @@ select “experiment.json”
 click “Submit”
 ```
 
-4.Compose-Services document
+5.Compose-Services document
 ===
 
 Docker-compose setup for experimental commons, small commons, or local development of the Gen3 stack. Production use should use [cloud-automation](https://github.com/uc-cdis/cloud-automation).
