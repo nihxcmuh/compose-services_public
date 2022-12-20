@@ -160,7 +160,8 @@ location /guppy/ {
         proxy_pass http://guppy-service/;
 }
 ```
-b. Running tube ETL and setup guppy
+xxx b.  Running tube ETL and setup guppy 
+cance this process
 ```
 #Enter to docker container
 docker exec -it tube-service bash
