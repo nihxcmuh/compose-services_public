@@ -52,7 +52,7 @@ b. Replace HOSTNAME
 ~/compose-services_google/patch/replace google-gen3.biobank.org.tw ${HOSTNAME} -- ~/compose-services_google/*/*/*/*/*
 ~/compose-services_google/patch/replace google-gen3.biobank.org.tw ${HOSTNAME} -- ~/compose-services_google/*/*/*/*/*/*
 ```
-c. Create HOSTNAME ssl key  
+c. Create HOSTNAME ssl key, open the port 80 and 443
 ```
 sudo apt-get install letsencrypt -y
 sudo letsencrypt certonly
