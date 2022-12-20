@@ -151,7 +151,33 @@ slide_image.json
 core_metadata_collection.json
 ```
 
-5.Compose-Services document
+6.Update Server
+===
+
+```
+a. 修改文件 nginx.conf, 移除標記#
+location /guppy/ {
+        proxy_pass http://guppy-service/;
+}
+```
+b. Running tube ETL and setup guppy
+```
+#Enter to docker container
+docker exec -it tube-service bash
+#Edit /tmp/datadictionary/setup.py
+gdcdictionary==1.2.0,
+#Update
+docker exec -it tube-service bash -c "cd /tmp/datadictionary && pip install ."
+#setup guppy-service
+bash ./guppy_setup.sh
+```
+c. Restart
+```
+docker-compose down
+docker-compose up -d
+```
+
+6.Compose-Services document
 ===
 
 Docker-compose setup for experimental commons, small commons, or local development of the Gen3 stack. Production use should use [cloud-automation](https://github.com/uc-cdis/cloud-automation).
