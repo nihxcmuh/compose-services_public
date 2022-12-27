@@ -169,6 +169,18 @@ services:
       sh -c "sleep 30 && /env/bin/alembic upgrade head && /env/bin/uvicorn --host 0.0.0.0 --port 80 mds.asgi:app --reload"
     networks:
       - devnet
+  manifestservice:
+    image: "quay.io/cdis/manifestservice:2022.08"
+    #image: "quay.io/tsai/manifgestservice"
+    container_name: manifestservice
+    volumes:
+      - ./Secrets/manifestservice_config.json:/manifestservice/config.json       
+      - ./manifestservice/api.py:/manifestservice/manifestservice/api.py
+      - ./manifestservice/__init__.py:/manifestservice/manifestservice/manifests/__init__.py
+    depends_on:
+      - postgres
+    networks:
+      - devnet       
   peregrine-service:
     image: "quay.io/cdis/peregrine:2022.08"
     container_name: peregrine-service
