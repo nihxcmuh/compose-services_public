@@ -187,14 +187,19 @@ docker-compose up -d
 bash dump.sh
 curl -sSL https://raw.githubusercontent.com/BretFisher/docker-vackup/main/vackup > /usr/local/bin/vackup
 chmod +x /usr/local/bin/vackup
+#docker inspect postgres |grep "volume"
 vackup export compose-services_google_psqldata compose-services_google_psqldata.tar.gz
 vackup export compose-services_google_esdata compose-services_google_esdata.tar.gz
-
-#vackup import compose-services_google_psqldata.tar.gz compose-services_google_psqldata
-#vackup import compose-services_google_esdata.tar.gz compose-services_google_esdata
-#docker inspect postgres |grep "volume"
 ```
-7.Compose-Services document
+
+7.Restor 
+===
+```
+#vackup import psqldata.tar.gz psqldata
+#vackup import esdata.tar.gz esdata
+```
+
+8.Compose-Services document
 ===
 
 Docker-compose setup for experimental commons, small commons, or local development of the Gen3 stack. Production use should use [cloud-automation](https://github.com/uc-cdis/cloud-automation).
