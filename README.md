@@ -162,7 +162,7 @@ slide_image.json
 core_metadata_collection.json
 ```
 
-6.Update Server
+5.Update Server
 ===
 
 a. Edit nginx.conf, and remove "#"
@@ -181,6 +181,19 @@ docker-compose down
 docker-compose up -d
 ```
 
+6.Backup 
+===
+```
+bash dump.sh
+curl -sSL https://raw.githubusercontent.com/BretFisher/docker-vackup/main/vackup > /usr/local/bin/vackup
+chmod +x /usr/local/bin/vackup
+vackup export compose-services_google_psqldata compose-services_google_psqldata.tar.gz
+vackup export compose-services_google_esdata compose-services_google_esdata.tar.gz
+
+#vackup import compose-services_google_psqldata.tar.gz compose-services_google_psqldata
+#vackup import compose-services_google_esdata.tar.gz compose-services_google_esdata
+#docker inspect postgres |grep "volume"
+```
 7.Compose-Services document
 ===
 
