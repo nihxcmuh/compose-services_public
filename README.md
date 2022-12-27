@@ -88,11 +88,22 @@ S3_BUCKETS:
 
 DATA_UPLOAD_BUCKET: gen3bucket
 ```
-g. Edit Secrets/user.yaml
+g. Edit manifestservice_config.json for aws s3 access_key and bucket
+```
+{
+        "manifest_bucket_name": "tcgademo",
+        "hostname": "google-gen4.biobank.org.tw",
+        "aws_access_key_id": "",
+        "aws_secret_access_key": "",
+        "prefix": "google-gen4.biobank.org.tw",
+        "endpoint_url" : "https://s3-cloud.nchc.org.tw"
+}
+```
+h. Edit Secrets/user.yaml
 ```
 change summerhill001@gmail.com to your Email
 ```
-h. Building Gen3 
+i. Building Gen3 
 ```
 docker-compose down
 docker-compose up -d
