@@ -187,8 +187,8 @@ docker-compose up -d
 ===
 ```
 bash dump.sh
-curl -sSL https://raw.githubusercontent.com/BretFisher/docker-vackup/main/vackup > /usr/local/bin/vackup
-chmod +x /usr/local/bin/vackup
+sudo curl -sSL https://raw.githubusercontent.com/BretFisher/docker-vackup/main/vackup > /usr/local/bin/vackup
+sudo chmod +x /usr/local/bin/vackup
 #docker inspect postgres |grep "volume"
 vackup export compose-services_google_psqldata psqldata.tar.gz
 vackup export compose-services_google_esdata esdata.tar.gz
