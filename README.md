@@ -92,10 +92,10 @@ g. Edit manifestservice_config.json for aws s3 access_key and bucket
 ```
 {
         "manifest_bucket_name": "tcgademo",
-        "hostname": "google-gen4.biobank.org.tw",
+        "hostname": "google-gen3.biobank.org.tw",
         "aws_access_key_id": "",
         "aws_secret_access_key": "",
-        "prefix": "google-gen4.biobank.org.tw",
+        "prefix": "google-gen3.biobank.org.tw",
         "endpoint_url" : "https://s3-cloud.nchc.org.tw"
 }
 ```
