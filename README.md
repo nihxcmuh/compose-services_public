@@ -35,42 +35,47 @@ sudo ln -s /usr/bin/python3 /usr/bin/python
 2.QUICK INSTALL
 ===
 
-a. Download gen3-compose and patch it 
+a. Download gen3-compose and creds_setup 
 ```
 HOSTNAME=google-gen4.biobank.org.tw
 cd ~/
 git clone https://github.com/c00cjz00/compose-services_google.git
 cd ~/compose-services_google
 ./creds_setup.sh ${HOSTNAME}
-cp -rf patch/Secrets_biobank patch/Secrets
-./patch.sh
 ```
 b. Replace HOSTNAME
 ```
+HOSTNAME=google-gen4.biobank.org.tw
 ~/compose-services_google/patch/replace google-gen3.biobank.org.tw ${HOSTNAME} -- patch/Secrets_biobank/fence-config.yaml
 ~/compose-services_google/patch/replace google-gen3.biobank.org.tw ${HOSTNAME} -- patch/Secrets_biobank/manifestservice_config.json
 ~/compose-services_google/patch/replace google-gen3.biobank.org.tw ${HOSTNAME} -- patch/www/curl.php
 ~/compose-services_google/patch/replace google-gen3.biobank.org.tw ${HOSTNAME} -- patch/www/graphQL*.php
 ~/compose-services_google/patch/replace google-gen3.biobank.org.tw ${HOSTNAME} -- patch/www/upload.php
 ```
-c. Open the port 80 and 443, and then create ssl key for $HOSTNAME
+c. Patch 
+```
+cd ~/compose-services_google
+cp -rf patch/Secrets_biobank patch/Secrets
+./patch.sh
+```
+d. Open the port 80 and 443, and then create ssl key for $HOSTNAME
 ```
 sudo apt-get install letsencrypt -y
 sudo letsencrypt certonly
 ```
-d. Copy ssl key to gen3
+e. Copy ssl key to gen3
 ```
 sudo cp /etc/letsencrypt/live/${HOSTNAME}/fullchain.pem ~/compose-services_google/Secrets/TLS/service.crt
 sudo cp /etc/letsencrypt/live/${HOSTNAME}/privkey.pem ~/compose-services_google/Secrets/TLS/service.key
 ```
-e. Edit Secrets/fence-config.yaml for google Oauth 2.0 key 
+f. Edit Secrets/fence-config.yaml for google Oauth 2.0 key 
 
 OPEN URL https://console.developers.google.com/apis/credentials
 ```
 client_id: 'xxxxx'
 client_secret: 'xxxx'
 ```
-f. Edit Secrets/fence-config.yaml for aws s3 access_key and bucket
+g. Edit Secrets/fence-config.yaml for aws s3 access_key and bucket
 ```
 AWS_CREDENTIALS:
    'CRED1':
@@ -86,7 +91,7 @@ S3_BUCKETS:
 
 DATA_UPLOAD_BUCKET: gen3bucket
 ```
-g. Edit manifestservice_config.json for aws s3 access_key and bucket
+h. Edit manifestservice_config.json for aws s3 access_key and bucket
 ```
 {
         "manifest_bucket_name": "tcgademo",
@@ -97,11 +102,11 @@ g. Edit manifestservice_config.json for aws s3 access_key and bucket
         "endpoint_url" : "https://s3-cloud.nchc.org.tw"
 }
 ```
-h. Edit Secrets/user.yaml
+i. Edit Secrets/user.yaml
 ```
 change summerhill001@gmail.com to your Email
 ```
-i. Building Gen3 
+j. Building Gen3 
 ```
 docker-compose down
 docker-compose up -d
