@@ -37,7 +37,7 @@ sudo ln -s /usr/bin/python3 /usr/bin/python
 
 a. Download gen3-compose and patch it 
 ```
-HOSTNAME=google-gen3.biobank.org.tw
+HOSTNAME=google-gen4.biobank.org.tw
 cd ~/
 git clone https://github.com/c00cjz00/compose-services_google.git
 cd ~/compose-services_google
@@ -90,10 +90,10 @@ g. Edit manifestservice_config.json for aws s3 access_key and bucket
 ```
 {
         "manifest_bucket_name": "tcgademo",
-        "hostname": "google-gen3.biobank.org.tw",
+        "hostname": "google-gen4.biobank.org.tw",
         "aws_access_key_id": "",
         "aws_secret_access_key": "",
-        "prefix": "google-gen3.biobank.org.tw",
+        "prefix": "google-gen4.biobank.org.tw",
         "endpoint_url" : "https://s3-cloud.nchc.org.tw"
 }
 ```
@@ -124,7 +124,7 @@ docker run -it -v "${TEST_DATA_PATH}:/mnt/data" --rm --name=dsim --entrypoint=da
 
 a. Create Program
 ```
-Goto https://google-gen3.biobank.org.tw/_root
+Goto https://google-gen4.biobank.org.tw/_root
 Click “Use Form Submission”
 At drop-down box, enter “program”
 At dbgap_accession_number, enter “jk123”
@@ -135,7 +135,7 @@ Click “Submit”
 
 b. Create “jenkins” project under “jnkns” program
 ```
-Goto https://google-gen3.biobank.org.tw/jnkns
+Goto https://google-gen4.biobank.org.tw/jnkns
 🙋‍♂️ we will be uploading in order described in Secrets/testData/DataImportOrder.txt
 click “Upload file”
 select “project.json”
@@ -145,7 +145,7 @@ click “Submit”
 c. Uploading metadata under “jenkins” project, under “jnkns” program
 ```
 💡 here we are fulfilling data dictionary (DD model graph) requirement for your center data submission program
-goto the project https://google-gen3.biobank.org.tw/jnkns-jenkins
+goto the project https://google-gen4.biobank.org.tw/jnkns-jenkins
 click “Upload file”
 select “experiment.json”
 click “Submit”
