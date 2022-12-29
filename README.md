@@ -182,6 +182,11 @@ c. Restart
 docker-compose down
 docker-compose up -d
 ```
+d.  Running etl
+```
+docker cp ~/gen3/credentials.json etl:/etc/credentials.json 
+docker exec  etl /etl/metadata --gen3_credentials_file /etl/credentials.json ls  |jq
+```
 
 6.Backup 
 ===
