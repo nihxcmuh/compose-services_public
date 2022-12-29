@@ -45,15 +45,13 @@ cd ~/compose-services_google
 cp -rf patch/Secrets_biobank patch/Secrets
 ./patch.sh
 ```
-
 b. Replace HOSTNAME
 ```
-~/compose-services_google/patch/replace google-gen3.biobank.org.tw ${HOSTNAME} -- ~/compose-services_google/*
-~/compose-services_google/patch/replace google-gen3.biobank.org.tw ${HOSTNAME} -- ~/compose-services_google/*/*
-~/compose-services_google/patch/replace google-gen3.biobank.org.tw ${HOSTNAME} -- ~/compose-services_google/*/*/*
-~/compose-services_google/patch/replace google-gen3.biobank.org.tw ${HOSTNAME} -- ~/compose-services_google/*/*/*/*
-~/compose-services_google/patch/replace google-gen3.biobank.org.tw ${HOSTNAME} -- ~/compose-services_google/*/*/*/*/*
-~/compose-services_google/patch/replace google-gen3.biobank.org.tw ${HOSTNAME} -- ~/compose-services_google/*/*/*/*/*/*
+~/compose-services_google/patch/replace google-gen3.biobank.org.tw ${HOSTNAME} -- patch/Secrets_biobank/fence-config.yaml
+~/compose-services_google/patch/replace google-gen3.biobank.org.tw ${HOSTNAME} -- patch/Secrets_biobank/manifestservice_config.json
+~/compose-services_google/patch/replace google-gen3.biobank.org.tw ${HOSTNAME} -- patch/www/curl.php
+~/compose-services_google/patch/replace google-gen3.biobank.org.tw ${HOSTNAME} -- patch/www/graphQL*.php
+~/compose-services_google/patch/replace google-gen3.biobank.org.tw ${HOSTNAME} -- patch/www/upload.php
 ```
 c. Open the port 80 and 443, and then create ssl key for $HOSTNAME
 ```
