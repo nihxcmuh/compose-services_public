@@ -1,8 +1,8 @@
 version: '3.7'
 services:
-  etl:
+  etlservice:
     build: ./etl
-    container_name: etl
+    container_name: etlservice
     networks:
       - devnet 
     volumes:
@@ -80,7 +80,7 @@ services:
     environment:
       - POSTGRES_PASSWORD=postgres
   indexd-service:
-    image: "quay.io/cdis/indexd:stable"
+    image: "quay.io/cdis/indexd:2022.11"
     command: bash indexd_setup.sh
     container_name: indexd-service
     networks:
@@ -103,7 +103,7 @@ services:
     depends_on:
       - postgres
   fence-service:
-    image: "quay.io/cdis/fence:stable"
+    image: "quay.io/cdis/fence:2022.11"
     command: bash /var/www/fence/fence_setup.sh
     container_name: fence-service
     networks:
@@ -140,7 +140,7 @@ services:
     depends_on:
       - fence-service
   arborist-service:
-    image: "quay.io/cdis/arborist:stable"
+    image: "quay.io/cdis/arborist:2022.11"
     container_name: arborist-service
     entrypoint: bash /go/src/github.com/uc-cdis/arborist/arborist_setup.sh
     networks:
@@ -163,7 +163,7 @@ services:
     depends_on:
       - postgres
   metadata-service:
-    image: "quay.io/cdis/metadata-service:stable"
+    image: "quay.io/cdis/metadata-service:2022.11"
     container_name: metadata-service
     depends_on:
       - postgres
@@ -177,7 +177,7 @@ services:
     networks:
       - devnet
   manifestservice:
-    image: "quay.io/cdis/manifestservice:stable"
+    image: "quay.io/cdis/manifestservice:2022.11"
     #image: "quay.io/tsai/manifgestservice"
     container_name: manifestservice
     volumes:
@@ -189,7 +189,7 @@ services:
     networks:
       - devnet       
   peregrine-service:
-    image: "quay.io/cdis/peregrine:stable"
+    image: "quay.io/cdis/peregrine:2022.11"
     container_name: peregrine-service
     networks:
       - devnet
@@ -215,7 +215,7 @@ services:
       - postgres
       - sheepdog-service
   sheepdog-service:
-    image: "quay.io/cdis/sheepdog:stable"
+    image: "quay.io/cdis/sheepdog:2022.11"
     command: bash /sheepdog_setup.sh
     container_name: sheepdog-service
     networks:
@@ -235,7 +235,7 @@ services:
     depends_on:
       - postgres
   guppy-service:
-    image: "quay.io/cdis/guppy:stable"
+    image: "quay.io/cdis/guppy:2022.08"
     container_name: guppy-service
     networks:
       - devnet
@@ -252,7 +252,8 @@ services:
       - arborist-service
       - esproxy-service
   esproxy-service:
-    image: quay.io/cdis/elasticsearch-oss:6.8.12
+    #image: quay.io/cdis/elasticsearch-oss:6.8.12
+    build: elasticsearch-amd
     container_name: esproxy-service
     environment:
       - cluster.name=elasticsearch-cluster
@@ -286,7 +287,7 @@ services:
     networks:
       - devnet
   pidgin-service:
-    image: "quay.io/cdis/pidgin:stable"
+    image: "quay.io/cdis/pidgin:2022.11"
     container_name: pidgin-service
     networks:
       - devnet
@@ -300,7 +301,7 @@ services:
     depends_on:
       - peregrine-service
   portal-service:
-    image: "quay.io/cdis/data-portal:stable"
+    image: "quay.io/cdis/data-portal:2022.11"
     container_name: portal-service
     command: ["bash", "/var/www/data-portal/waitForContainers.sh"]
     networks:
@@ -338,7 +339,7 @@ services:
     environment:
       - FRAME_ANCESTORS=http://localhost https://*.biobank.org.tw
   revproxy-service:
-    image: "quay.io/cdis/nginx:stable"
+    image: "quay.io/cdis/nginx:2022.11"
     container_name: revproxy-service
     networks:
       - devnet
@@ -363,7 +364,7 @@ services:
       - portal-service
       - pidgin-service
   tube-service:
-    image: "quay.io/cdis/tube:stable"
+    image: "quay.io/cdis/tube:2022.08"
     container_name: tube-service
     command: bash -c "while true; do sleep 5; done"
     networks:
@@ -384,7 +385,7 @@ services:
       - esproxy-service
       - spark-service
   spark-service:
-    image: "quay.io/cdis/gen3-spark:stable"
+    image: "quay.io/cdis/gen3-spark:2022.08"
     container_name: spark-service
     command: bash -c "python run_config.py && hdfs namenode -format && hdfs --daemon start namenode && hdfs --daemon start datanode && yarn --daemon start resourcemanager && yarn --daemon start nodemanager && hdfs dfsadmin -safemode leave &&  hdfs dfs -mkdir /result && while true; do sleep 5; done"
     expose:
