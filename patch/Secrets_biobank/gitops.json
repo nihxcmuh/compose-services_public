@@ -1,5 +1,7 @@
 {
   "gaTrackingId": "UA-119127212-1",
+  "showArboristAuthzOnProfile": true,
+  "showFenceAuthzOnProfile": false,  
   "components": {
     "appName": "生醫服務入口平台",
     "index": {

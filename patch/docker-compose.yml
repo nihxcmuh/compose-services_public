@@ -1,5 +1,12 @@
 version: '3.7'
 services:
+  etl:
+    build: ./etl
+    container_name: etl
+    networks:
+      - devnet 
+    volumes:
+      - ./etl:/etl
   phpapache:
     build: ./php
     container_name: lamp

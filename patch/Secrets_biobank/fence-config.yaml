@@ -458,4 +458,4 @@ GOOGLE_MANAGED_SERVICE_ACCOUNT_DOMAINS:
   - 'gcp-sa-websecurityscanner.iam.gserviceaccount.com'
   - 'storage-transfer-service.iam.gserviceaccount.com'
 
-ENABLE_DB_MIGRATION: true
+ENABLE_DB_MIGRATION: false
