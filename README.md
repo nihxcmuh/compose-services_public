@@ -31,6 +31,17 @@ docker run hello-world
 
 sudo ln -s /usr/bin/python3 /usr/bin/python
 ```
+Kill docker 
+```
+#stop all containers:
+docker kill $(docker ps -q)
+
+#remove all containers
+docker rm $(docker ps -a -q)
+
+#remove all docker images
+docker rmi $(docker images -q)
+```
 
 2.QUICK INSTALL
 ===
