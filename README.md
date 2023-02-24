@@ -1,7 +1,27 @@
-Edit by 0203126@narlabs.org.tw
+Edit by edward70932@gmail.com  
+Fork from [c00cjz00/compose-services_google](https://github.com/c00cjz00/compose-services_google)  
+[NCHC Slide](https://docs.google.com/presentation/d/1oUV6kYTRqs_jEYuyzsyYqLYIDtNtl-Ze61hfGxtDSl0/edit#slide=id.g196fd36a755_0_261)
 
-1.SYSTEM 
-===
+# Outline
+- [Outline](#outline)
+- [1. SYSTEM](#1-system)
+- [2. QUICK INSTALL](#2-quick-install)
+- [3. Fake data upload (這個是創假資料，不要在正式環境使用)](#3-fake-data-upload-這個是創假資料不要在正式環境使用)
+  - [1. CREATE DATA](#1-create-data)
+  - [2. UPLOAD DATA](#2-upload-data)
+- [4. Update Server](#4-update-server)
+- [5. Backup](#5-backup)
+- [6. Restore](#6-restore)
+- [Setting your own Data Dictionary](#setting-your-own-data-dictionary)
+- [Setting up `program` and `project`](#setting-up-program-and-project)
+- [ETL and Data Explorer Configurations](#etl-and-data-explorer-configurations)
+- [Gen3 Portal Configurations Examples](#gen3-portal-configurations-examples)
+- [Indexing auto trigger](#indexing-auto-trigger)
+- [Gen3 Python SDK](#gen3-python-sdk)
+- [Compose-Services document](#compose-services-document)
+- [Key Documentation](#key-documentation)
+
+# 1. SYSTEM 
 
 ubuntu 18.04, 20.04 or 22.04
 ```
@@ -43,8 +63,7 @@ docker rm $(docker ps -a -q)
 docker rmi $(docker images -q)
 ```
 
-2.QUICK INSTALL
-===
+# 2. QUICK INSTALL
 
 a. Download gen3-compose and creds_setup 
 ```
@@ -122,9 +141,10 @@ j. Building Gen3
 docker-compose down
 docker-compose up -d
 ```
+# 3. Fake data upload (這個是創假資料，不要在正式環境使用)
 
-3.CREATE DATA
-===
+## 1. CREATE DATA
+<details>
 
 TCGA link: https://github.com/c00cjz00/compose-services_tcga_slideimage
 
@@ -134,9 +154,10 @@ export TEST_DATA_PATH="$(pwd)/testData"
 mkdir -p "$TEST_DATA_PATH"
 docker run -it -v "${TEST_DATA_PATH}:/mnt/data" --rm --name=dsim --entrypoint=data-simulator quay.io/cdis/data-simulator:master simulate --url https://s3.amazonaws.com/dictionary-artifacts/datadictionary/develop/schema.json --path /mnt/data --program jnkns --project jenkins --max_samples 10
 ```
+</details>
 
-4.UPLOAD DATA
-===
+## 2. UPLOAD DATA
+<details>
 
 a. Create Program
 ```
@@ -177,9 +198,9 @@ slide_count.json
 slide_image.json
 core_metadata_collection.json
 ```
+</details>
 
-5.Update Server
-===
+# 4. Update Server
 
 a. Edit nginx.conf, and remove "#"
 ```
@@ -198,12 +219,12 @@ docker-compose up -d
 ```
 d.  Running etl
 ```
-docker cp ~/gen3/credentials.json etl:/etc/credentials.json 
-docker exec  etl /etl/metadata --gen3_credentials_file /etl/credentials.json ls  |jq
+docker cp ~/gen3/credentials_nihxcmuh.json etlservice:/etc/credentials.json 
+docker exec  etlservice /etl/metadata --gen3_credentials_file /etc/credentials.json ls  |jq
 ```
 
-6.Backup 
-===
+# 5. Backup 
+
 ```
 bash dump.sh
 curl -sSL https://raw.githubusercontent.com/BretFisher/docker-vackup/main/vackup > vackup
@@ -214,17 +235,109 @@ vackup export compose-services_google_psqldata psqldata.tar.gz
 vackup export compose-services_google_esdata esdata.tar.gz
 ```
 
-7.Restore
-===
+# 6. Restore
+
 ```
 docker volume create compose-services_google_psqldata
 docker volume create compose-services_google_esdata
 vackup import psqldata.tar.gz compose-services_google_psqldata
 vackup import esdata.tar.gz compose-services_google_esdata
 ```
+# Setting your own Data Dictionary
+examples:
+* [MIRDC](https://github.com/uc-cdis/midrc_dictionary)  
+* [GDC](https://github.com/uc-cdis/gdcdatamodel)
+* [JCOIN](https://github.com/uc-cdis/JCOIN_datadictionary)
 
-8.Compose-Services document
-===
+Where to put your own data dictionary? [here](datadictionary/gdcdictionary/schemas/)
+
+Tools:
+* [dictionaryutils](https://github.com/uc-cdis/dictionaryutils): You can use this tool to dump a dictionary into a single JSON file, and put it into S3.
+
+
+# Setting up `program` and `project`
+For example, program: `CMUH` project: `TSR`
+
+a. Setup resource [code](patch/Secrets_biobank/user.yaml#L38-L54)  
+```yaml
+authz:
+  # other setting...
+  resources:
+  - name: programs
+    subresources:
+    - name: CMUH
+      subresources:
+        - name: projects
+          subresources:
+            - name: TSR
+  # other setting...
+``` 
+b. Setup policies [code](patch/Secrets_biobank/user.yaml#L56-L125) 
+```yaml
+authz:
+  # other setting...
+  policies:
+  - id: CMUH
+    role_ids:
+    - reader
+    - creator
+    - updater
+    - deleter
+    - storage_reader
+    - storage_writer
+    resource_paths:
+    - /programs/CMUH
+    - /programs/CMUH/projects/TSR
+  # other setting...
+```
+c. Give user policies [code](patch/Secrets_biobank/user.yaml#L208-L213)
+```yaml
+users:
+  username:
+    # other setting...
+    policies:
+      - CMUH
+``` 
+# ETL and Data Explorer Configurations
+https://gen3.org/resources/operator/#8-etl-and-data-explorer-configurations
+
+manifest examples: https://github.com/uc-cdis/cdis-manifest
+
+[Code explanation](docs/data_explorer_conf.md) [:construction: Under editing] 
+
+# Gen3 Portal Configurations Examples
+https://gen3.org/resources/operator/#9-gen3-portal-configurations-examples
+
+Official Documents: https://github.com/uc-cdis/data-portal/blob/master/docs/portal_config.md
+
+# Indexing auto trigger
+
+Resource https://github.com/ohsu-comp-bio/compose-services/tree/onprem/onprem
+
+a. Add config below into `docker-compose.yml`
+```yaml
+services:
+  s3indexer-service:
+    image: "onprem/s3indexer"
+    container_name: s3indexer-service
+    volumes:
+      - ./Secrets/s3indexer-state:/var/s3indexer/state # store re-try info
+      - ./Secrets/fence-config.yaml:/var/s3indexer/fence-config.yaml # pass bucket info to s3clientindexer
+      - ./Secrets/indexd_creds.json:/var/s3indexer/indexd_creds.json # read new files from indexd db
+    networks:
+      - devnet
+    depends_on:
+      - indexd-service
+```
+
+b. upload data  
+Submitting Data Files and Linking Metadata in a Gen3 Data Commons. (https://gen3.org/resources/user/submit-data/)  
+Enabling New Gen3 Object Management API (https://github.com/uc-cdis/cdis-data-client#enabling-new-gen3-object-management-api)
+
+# Gen3 Python SDK
+https://github.com/uc-cdis/gen3sdk-python
+
+# Compose-Services document
 
 Docker-compose setup for experimental commons, small commons, or local development of the Gen3 stack. Production use should use [cloud-automation](https://github.com/uc-cdis/cloud-automation).
 
